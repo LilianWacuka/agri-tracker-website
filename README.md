@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agri Tracker Website
 
-## Getting Started
+A Next.js 16 + TypeScript app for managing agricultural transactions, user authentication, and basic income/expense tracking. The project uses Prisma with MongoDB for persistence and a lightweight shadcn/Tailwind UI design.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- User registration and login
+- JWT-based authentication
+- Transaction CRUD via `/api/transaction`
+- Separate income and expense transaction flows
+- MongoDB backend with Prisma client
+- Client-side pages for register, login, and dashboard
+- Responsive UI built with Tailwind and shadcn components
+
+## Tech stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Prisma
+- MongoDB
+- Tailwind CSS
+- shadcn/ui components
+- bcryptjs
+- jsonwebtoken
+- lucide-react
+
+## File structure highlights
+
+- `app/(frontend)/register/page.tsx` - registration form and flow
+- `app/(frontend)/login/page.tsx` - login form and flow
+- `app/(frontend)/dashboard/page.tsx` - dashboard wrapper for transaction pages
+- `app/(frontend)/transaction/page.tsx` - transaction input forms
+- `app/api/register/route.ts` - registration API route
+- `app/api/login/route.ts` - login API route
+- `app/api/transaction/route.ts` - transaction API route
+- `app/services/user.ts` - user service functions
+- `app/services/transaction.ts` - transaction service functions
+- `prisma/schema.prisma` - MongoDB schema definitions
+
+## Environment variables
+
+Create a `.env` file at the project root with:
+
+```env
+DATABASE_URL="<your MongoDB connection string>"
+JWT_SECRET="your_jwt_secret"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+npx prisma generate
+npx prisma db push
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Then open `http://localhost:3000`.
 
-## Learn More
+## Available scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `pnpm dev` - start the Next.js development server
+- `pnpm build` - build the production app
+- `pnpm start` - run the built app
+- `pnpm lint` - run ESLint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The app stores `token` and `userId` in `localStorage` after login/registration.
+- The Prisma schema is configured for MongoDB and expects `DATABASE_URL` to point to a MongoDB database.
+- The home page currently renders the registration flow by default.
 
-## Deploy on Vercel
+## Next steps
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Add protected route handling for pages like `/dashboard`
+- Add transaction editing and deletion UI controls
+- Add better error feedback and form validation
+- Add summary charts or totals for income/expense tracking
