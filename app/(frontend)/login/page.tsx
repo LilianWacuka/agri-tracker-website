@@ -73,7 +73,7 @@ export default function LoginPage() {
       // Redirect to dashboard
       setTimeout(() => {
         router.push("/dashboard");
-      }, 2000);
+      }, 1000);
 
     } catch (error) {
       console.error("Login error:", error);
@@ -136,7 +136,7 @@ export default function LoginPage() {
 
           {/* Display messages */}
           {message && (
-            <p className="text-sm text-center text-red-500">
+            <p className="text-sm text-center text-green-500">
               {message}
             </p>
           )}

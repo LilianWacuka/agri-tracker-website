@@ -23,6 +23,7 @@ export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault();
+    const form = e.currentTarget;
 
     setLoading(true);
     setMessage("");
@@ -67,7 +68,7 @@ export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
       setMessage("Income recorded successfully.");
 
       // Clear the form
-      e.currentTarget.reset();
+      form.reset();
 
       // Refresh parent component
       onSuccess();
@@ -84,7 +85,8 @@ export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto p-6 shadow-lg">
+    <div className="flex flex-col md:flex-row justify-between gap-6 w-full max-w-5xl">
+    <Card className="p-6 w-full md:w-1/2 mx-auto shadow-lg">
       <h2 className="text-2xl font-bold text-green-700 mb-6">
         Record Income
       </h2>
@@ -228,5 +230,6 @@ export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
         </Button>
       </form>
     </Card>
+    </div>
   );
 }
