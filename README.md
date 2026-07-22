@@ -1,18 +1,27 @@
 # Agri Tracker Website
 
-A Next.js 16 + TypeScript app for managing agricultural transactions, user authentication, and basic income/expense tracking. The project uses Prisma with MongoDB for persistence and a lightweight shadcn/Tailwind UI design.
+Agri Tracker Website is a modern Next.js application for managing farm-related financial activity. It supports user registration, authentication, transaction tracking, and profile management in a clean dashboard experience.
 
-## Features
+## Overview
 
-- User registration and login
-- JWT-based authentication
-- Transaction CRUD via `/api/transaction`
-- Separate income and expense transaction flows
-- MongoDB backend with Prisma client
-- Client-side pages for register, login, and dashboard
-- Responsive UI built with Tailwind and shadcn components
+This project helps users record and organize agricultural income and expenses, with a focus on simple workflows for:
 
-## Tech stack
+- creating and viewing transactions
+- separating income and expense entries
+- managing user profiles
+- navigating between authentication and dashboard pages
+
+## Key Features
+
+- User registration and login flow
+- JWT-based authentication with persisted session data
+- Transaction entry for income and expenses
+- Dashboard-oriented transaction experience
+- Profile management pages
+- Responsive UI powered by Tailwind CSS and shadcn/ui components
+- Prisma + MongoDB persistence layer
+
+## Tech Stack
 
 - Next.js 16
 - React 19
@@ -20,60 +29,79 @@ A Next.js 16 + TypeScript app for managing agricultural transactions, user authe
 - Prisma
 - MongoDB
 - Tailwind CSS
-- shadcn/ui components
+- shadcn/ui
 - bcryptjs
 - jsonwebtoken
 - lucide-react
 
-## File structure highlights
+## Project Structure
 
-- `app/(frontend)/register/page.tsx` - registration form and flow
-- `app/(frontend)/login/page.tsx` - login form and flow
-- `app/(frontend)/dashboard/page.tsx` - dashboard wrapper for transaction pages
-- `app/(frontend)/transaction/page.tsx` - transaction input forms
-- `app/api/register/route.ts` - registration API route
-- `app/api/login/route.ts` - login API route
-- `app/api/transaction/route.ts` - transaction API route
-- `app/services/user.ts` - user service functions
-- `app/services/transaction.ts` - transaction service functions
-- `prisma/schema.prisma` - MongoDB schema definitions
+- app/(frontend)/login/page.tsx - login page
+- app/(frontend)/register/page.tsx - registration page
+- app/(frontend)/dashboard/page.tsx - dashboard entry point
+- app/(frontend)/transaction/page.tsx - transaction form experience
+- app/(frontend)/profile/page.tsx - profile page
+- app/api/login/route.ts - login API route
+- app/api/register/route.ts - registration API route
+- app/api/transaction/route.ts - transaction API route
+- app/services/user.ts - user-related service functions
+- app/services/transaction.ts - transaction-related service functions
+- prisma/schema.prisma - Prisma schema for MongoDB
 
-## Environment variables
+## Prerequisites
 
-Create a `.env` file at the project root with:
+Before running the app, make sure you have:
+
+- Node.js 20+
+- pnpm
+- A MongoDB instance or Atlas connection string
+
+## Environment Variables
+
+Create a .env file in the project root with the following values:
 
 ```env
-DATABASE_URL="<your MongoDB connection string>"
-JWT_SECRET="your_jwt_secret"
+DATABASE_URL="mongodb://<username>:<password>@<host>:<port>/<database>"
+JWT_SECRET="your-secret-key"
 ```
 
-## Getting started
+## Getting Started
+
+Install dependencies:
 
 ```bash
 pnpm install
+```
+
+Generate the Prisma client:
+
+```bash
 npx prisma generate
+```
+
+Push the schema to your MongoDB database:
+
+```bash
 npx prisma db push
+```
+
+Start the development server:
+
+```bash
 pnpm dev
 ```
 
-Then open `http://localhost:3000`.
+Open http://localhost:3000 in your browser.
 
-## Available scripts
+## Available Scripts
 
-- `pnpm dev` - start the Next.js development server
-- `pnpm build` - build the production app
-- `pnpm start` - run the built app
-- `pnpm lint` - run ESLint
+- pnpm dev - start the development server
+- pnpm build - create a production build
+- pnpm start - run the production build locally
+- pnpm lint - run ESLint checks
 
 ## Notes
 
-- The app stores `token` and `userId` in `localStorage` after login/registration.
-- The Prisma schema is configured for MongoDB and expects `DATABASE_URL` to point to a MongoDB database.
-- The home page currently renders the registration flow by default.
-
-## Next steps
-
-- Add protected route handling for pages like `/dashboard`
-- Add transaction editing and deletion UI controls
-- Add better error feedback and form validation
-- Add summary charts or totals for income/expense tracking
+- Authentication data such as the user token and user ID are stored in browser storage after login or registration.
+- The Prisma schema is configured for MongoDB and expects DATABASE_URL to point to a valid MongoDB connection string.
+- The app is still evolving, and future improvements may include stronger route protection, richer transaction analytics, reports generation, and better form validation.

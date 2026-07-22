@@ -37,17 +37,12 @@ export default function ProfilePage() {
 
     try {
 
-      const response = await fetch(
-        `/api/profile?userId=${userId}`
-      );
+      const response = await fetch( `/api/profile?userId=${userId}`);
 
-      const data = await response.json();
+      const data = await response.json(); 
+      setUser(data.user);
 
-      setUser(data);
-
-    } catch (error) {
-
-      console.error(error);
+    } catch (error) { console.error(error);
 
     } finally {
 
@@ -56,11 +51,7 @@ export default function ProfilePage() {
     }
   }
 
-  useEffect(() => {
-
-    fetchProfile();
-
-  }, [userId]);
+  useEffect(() => { fetchProfile(); }, [userId]);
 
   if (loading) {
 

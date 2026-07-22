@@ -19,6 +19,7 @@ export default function ProfileCard({
         .join("")
         .toUpperCase()
     : "U";
+    
 
   return (
     <Card>
