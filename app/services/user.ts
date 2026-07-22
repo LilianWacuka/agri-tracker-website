@@ -50,4 +50,13 @@ export const getUserByEmail = async (email: string) => {
         throw error;
     }
 };
-//update user
+//update userprofile
+export const updateUserProfile = async(id: string, userName:  string, email: string, 
+    farmName: string, phoneNumber: string, fullName: string,)=>{
+        const updatedUser = await prisma.user.update({
+            where: {id},
+            data: {userName, email, farmName, phoneNumber, fullName}
+        });
+        return updatedUser;
+    }
+

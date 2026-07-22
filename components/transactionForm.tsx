@@ -8,7 +8,7 @@ interface TransactionFormProps{
     onSuccess:()=>void
 }
 type TransactionType = "income | expense";
-export default function TransactionForm({
+export function TransactionForm({
     editingTransaction, onSuccess,
 }: TransactionFormProps){
     const[transactionType, setTransactionType]= useState("");

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/context/authContext";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,8 +49,9 @@ export default function LoginPage() {
       });
 
       // Convert response body from JSON to JavaScript object
-      const data = await response.json();
 
+      const data = await response.json();
+      
       // Handle API errors
       if (!response.ok) {
         setMessage(data.message || "Login failed.");
@@ -59,7 +62,7 @@ export default function LoginPage() {
       setMessage(data.message || "Login successful! Redirecting...");
 
       if (data.user?.id) {
-        localStorage.setItem("userId", data.user.id);
+        login(data.user.id);
       }
 
       if (data.token) {
