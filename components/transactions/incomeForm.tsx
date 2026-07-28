@@ -3,40 +3,32 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
-const expenseCategories = [
-  "Feeds",
-  "Vaccine",
-  "Drugs",
-  "Transport",
-  "Miscellaneous",
-  "Electricity bills",
-  "Supplements/vitamins",
-  "Water Bill",
-  "Construction",
-  "Furniture/equipments",
-  "Wood Shavings",
-  "",
+const incomeCategories = [
+  "Chick Sale",
+  "Live Meat",
+  "Hen Sale",
+  "Egg Sale",
+  "Manure",
+  "Feathers",
 ];
 
-export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
+export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => 
-    { e.preventDefault();
-      const form = e.currentTarget;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault();
+    const form = e.currentTarget;
 
     setLoading(true);
     setMessage("");
 
     const formData = new FormData(e.currentTarget);
-  
 
     // Get logged in user's ID
     const userId = localStorage.getItem("userId");
@@ -69,11 +61,11 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.message || "Failed to record expense.");
+        setMessage(data.message || "Failed to record income.");
         return;
       }
 
-      setMessage("Expense recorded successfully.");
+      setMessage("Income recorded successfully.");
 
       // Clear the form
       form.reset();
@@ -85,7 +77,7 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
       router.refresh();
 
     } catch (error) {
-      console.error("Error adding expense:", error);
+      console.error("Error adding income:", error);
       setMessage("Server error. Please try again.");
     } finally {
       setLoading(false);
@@ -95,9 +87,9 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
   return (
     <div className="flex flex-col md:flex-row justify-between gap-6 w-full max-w-5xl">
     <Card className="p-6 w-full md:w-1/2 mx-auto shadow-lg">
-      <h2 className="text-2xl font-bold text-red-400 mb-6">
-        Record Expense
-      </h2> 
+      <h2 className="text-2xl font-bold text-green-700 mb-6">
+        Record Income
+      </h2>
 
       <form
         onSubmit={handleSubmit}
@@ -106,12 +98,12 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
         {/* Income Name */}
         <div className="space-y-2">
           <label className="text-sm font-medium">
-            Expense Name
+            Income Name
           </label>
 
           <Input
             name="name"
-            placeholder="Example: vaccine"
+            placeholder="Example: Morning Egg Sales"
             required
           />
         </div>
@@ -132,10 +124,10 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
               value=""
               disabled
             >
-              Select Expense Category
+              Select Income Category
             </option>
 
-            {expenseCategories.map((category) => (
+            {incomeCategories.map((category) => (
               <option
                 key={category}
                 value={category}
@@ -231,10 +223,10 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
         {/* Submit Button */}
         <Button
           type="submit"
-          className="w-full bg-red-600 hover:bg-red-700"
+          className="w-full bg-green-600 hover:bg-green-700"
           disabled={loading}
         >
-          {loading ? "Saving..." : "Save Expense"}
+          {loading ? "Saving..." : "Save Income"}
         </Button>
       </form>
     </Card>
