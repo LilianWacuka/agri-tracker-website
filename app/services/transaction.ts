@@ -3,6 +3,7 @@ import {PrismaClient} from "@/generated/prisma/client";
 const prisma = new PrismaClient();
 
 export const createTransaction = async (
+  type: "income" | "expense",
   name: string,
   userId: string | null | undefined,
   category: string,
@@ -21,15 +22,30 @@ export const createTransaction = async (
     if (Number.isNaN(parsedPrice) || Number.isNaN(parsedQuantity)) {
       throw new Error("Invalid price or quantity");
     }
+    console.log("Incoming values:", {
+      type,
+      name,
+      userId,
+      category,
+      price,
+      quantity,
+      paymentMethod,
+      date,
+    });
 
     const calculatedTotal = parsedPrice * parsedQuantity;
 
     const parsedDate = date ? new Date(date) : undefined;
+    console.log("Parsed values:", {
+      parsedPrice,
+      parsedQuantity,
+    });
 
     const created = await prisma.transaction.create({
       data: {
         name,
         userId,
+        type,
         category,
         price: parsedPrice,
         quantity: parsedQuantity,

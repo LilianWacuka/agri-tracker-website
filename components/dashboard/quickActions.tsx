@@ -7,8 +7,10 @@ import { Card } from "@/components/ui/card";
 export function QuickActions(){
     return(
         <Popover>
-            <PopoverTrigger asChild>
-                <Button variant="outline">Quick Actions</Button>
+            <PopoverTrigger asChild className="max-w-full flex">
+                      
+                    <Button variant="outline">Quick Actions</Button>
+                
             </PopoverTrigger>
             
             <PopoverContent className="w-full max-w-5xl">

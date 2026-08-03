@@ -1,119 +1,163 @@
 "use client";
-
-import { Pencil, Trash2, TrendingUp, TrendingDown } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Pencil, Trash2, Search, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-interface Transaction {
+interface Transaction{
   id: string;
+  type: "income" | "expense";
   name: string;
   category: string;
-  quantity: number;
-  price: number;
-  total: number;
+  quantity: string;
+  price: string;
+  total: string;
   paymentMethod: string;
   date: string;
 }
+export function TransactionTable(){
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
-interface Props {
-  transactions: Transaction[];
-  onDelete: (id: string) => void;
-}
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+  const fetchTransactions = async () =>{
+    try{
+      const userId = localStorage.getItem("userId");
+      if(!userId) return;
+      const response = await fetch(`/api/transaction?userId=${userId}`);
+      const data = await response.json();
+      if (response.ok){
+        setTransactions(data.transactions ?? []);
+      }
+    } catch (error){
+      console.error("Error fetching transactions:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  async function handleDelete(id: string){
+    const confirmDelete = window.confirm("Delete this transaction?");
+    if (!confirmDelete) return;
+    try{
+      const response = await fetch(`/api/transaction/${id}`,{
+        method: "DELETE",
+      })
+      if (response.ok){
+        setTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
+      }
+    } catch (error){
+      console.error("Error deleting transaction:", error);
+    }
+  }
+  const categories = useMemo(() => {
+    return [ ...new Set(transactions.map((transaction) => transaction.category)),
+    ]
+  }, [transactions]);
+  const filteredTransactions = transactions.filter((transaction) => {
+    const matchesSearch = transaction.name.toLowerCase().includes(search.toLowerCase()) || transaction.category.toLowerCase().includes(search.toLowerCase());
 
-export function TransactionTable({ transactions, onDelete }: Props) {
+    const matchesType = typeFilter === "all" || transaction.type === typeFilter;
+    const matchesCategory = categoryFilter === "all" || transaction.category === categoryFilter;
+
+    return (matchesSearch && matchesType && matchesCategory)
+  });
+
+  if (loading) {
+    return (
+      <p className="text-center py-10 text-muted-foreground">
+        Loading transactions...
+      </p>
+    );
+  }
   return (
-    <div className="rounded-xl border bg-white overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-600">
-            <tr>
-              <th className="text-left p-4">Type</th>
-              <th className="text-left p-4">Category</th>
-              <th className="text-left p-4">Name</th>
-              <th className="text-left p-4">Qty</th>
-              <th className="text-left p-4">Price</th>
-              <th className="text-left p-4">Amount</th>
-              <th className="text-left p-4">Payment</th>
-              <th className="text-left p-4">Date</th>
-              <th className="text-right p-4">Actions</th>
+    <div className="space-y-6">
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Search transactions" className="pl-8"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+           />
+        </div>
+        <select className="border rounded-md px-3 py-2"
+        value={typeFilter}
+        onChange={(e) => setTypeFilter(e.target.value)}
+        >
+          <option value="all">All Types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+
+        </select>
+        <select className="border rounded-md px-3 py-2"
+        value={categoryFilter}
+        onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="all">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* // the table of transactions */}
+      <div className="overflow-x-auto ronded-lg border">
+        <table className="w-full">
+          <thead className="bg-muted">
+            <tr className="text-left">
+              <th className="p-4">Type</th>
+              <th className="p-4">Category</th>
+              <th className="p-4">Name</th>
+              <th className="p-4">Amount</th>
+              <th className="p-4">Date</th>
+              <th className="p-4">Actions</th>
             </tr>
           </thead>
-
           <tbody>
-            {transactions.map((tx) => {
-              const isExpense =
-                tx.category === "Electricity" ||
-                tx.category === "Water" ||
-                tx.category === "Transport" ||
-                tx.category === "Miscellaneous";
-
-              return (
-                <tr key={tx.id} className="border-t hover:bg-gray-50">
-                  <td className="p-4">
-                    <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                        isExpense
-                          ? "bg-red-100 text-red-600"
-                          : "bg-green-100 text-green-600"
-                      }`}
-                    >
-                      {isExpense ? (
-                        <TrendingDown className="h-4 w-4" />
-                      ) : (
-                        <TrendingUp className="h-4 w-4" />
-                      )}
-                    </div>
-                  </td>
-
-                  <td className="p-4 font-medium">{tx.category}</td>
-
-                  <td className="p-4 text-gray-600">{tx.name}</td>
-
-                  <td className="p-4">{tx.quantity}</td>
+            {filteredTransactions.length === 0 ?(
+              <tr>
+                <td colSpan={6} className="p-4 text-center">
+                  No transactions found.
+                </td>
+              </tr>
+            ) : (
+              filteredTransactions.map((transaction) =>(
+                <tr key={transaction.id} className="border-t hover:bg-gray-50">
 
                   <td className="p-4">
-                    Ksh {tx.price.toLocaleString()}
+                    {transaction.type === "income" ? (
+                      <TrendingUp className="text-green-500" size={20} />
+                    ) : (
+                      <TrendingDown className="text-red-500" size={20} />
+                    )}
                   </td>
-
-                  <td
-                    className={`p-4 font-semibold ${
-                      isExpense ? "text-red-600" : "text-green-600"
-                    }`}
-                  >
-                    {isExpense ? "-" : "+"}
-                    Ksh {tx.total.toLocaleString()}
-                  </td>
-
-                  <td className="p-4">
-                    <span className="px-2 py-1 rounded-md bg-gray-100 text-xs">
-                      {tx.paymentMethod}
-                    </span>
-                  </td>
-
-                  <td className="p-4 text-gray-500">
-                    {new Date(tx.date).toLocaleDateString("en-GB")}
-                  </td>
-
-                  <td className="p-4">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="icon">
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => onDelete(tx.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-red-600" />
-                      </Button>
-                    </div>
+                  <td className="p-4">{transaction.category}</td>
+                  <td className="p-4">{transaction.name}</td>
+                  <td className="p-4">{transaction.quantity}</td>
+                  <td className="p-4">ksh{""}{transaction.price.toLocaleString()}</td>
+                  <td className="p-4">{new Date(transaction.date).toLocaleDateString()}</td>
+                  <td className="p-4">{transaction.paymentMethod}</td>
+                  <td className="p-4 space-x-2">
+                    <Button variant="ghost" size="sm">
+                      <Pencil size={16} />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => handleDelete(transaction.id)}>
+                      <Trash2 size={16} />
+                    </Button>
                   </td>
                 </tr>
-              );
-            })}
+              ))
+            )})
           </tbody>
         </table>
+
       </div>
     </div>
-  );
+  )
 }
