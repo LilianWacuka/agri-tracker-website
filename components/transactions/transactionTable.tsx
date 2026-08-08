@@ -32,7 +32,7 @@ export function TransactionTable(){
       const response = await fetch(`/api/transaction?userId=${userId}`);
       const data = await response.json();
       if (response.ok){
-        setTransactions(data.transactions ?? []);
+        setTransactions(data.transaction ?? []);
       }
     } catch (error){
       console.error("Error fetching transactions:", error);
@@ -153,7 +153,7 @@ export function TransactionTable(){
                   </td>
                 </tr>
               ))
-            )})
+            )}
           </tbody>
         </table>
 

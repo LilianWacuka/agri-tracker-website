@@ -40,6 +40,7 @@ export function IncomeForm({ onSuccess,}: {onSuccess: () => void;}) {
     }
 
     const payload = {
+      type: "income",
       name: formData.get("name"),
       userId,
       category: formData.get("category"),

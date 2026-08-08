@@ -22,6 +22,9 @@ export const createTransaction = async (
     if (Number.isNaN(parsedPrice) || Number.isNaN(parsedQuantity)) {
       throw new Error("Invalid price or quantity");
     }
+
+    const normalizedType = type === "income" || type === "expense" ? type : "expense";
+
     console.log("Incoming values:", {
       type,
       name,
@@ -43,9 +46,9 @@ export const createTransaction = async (
 
     const created = await prisma.transaction.create({
       data: {
+        type: normalizedType,
         name,
         userId,
-        type,
         category,
         price: parsedPrice,
         quantity: parsedQuantity,

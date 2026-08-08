@@ -22,7 +22,7 @@ model User {
   }
 model Transaction {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  type String
+  type String?
   name String
   userId String @db.ObjectId
   category String

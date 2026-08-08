@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 //create transaction
 export async function POST(request: NextRequest) {
     try{
-        const { name, userId, category, price, quantity, paymentMethod, date } = await request.json();
+        const { type, name, userId, category, price, quantity, paymentMethod, date } = await request.json();
 
         if (!name || !userId || !category || price == null || quantity == null || !paymentMethod) {
             return NextResponse.json({ message: "Missing required transaction fields" }, { status: 400 });
         }
 
-        const transaction = await createTransaction(name, userId, category, price, quantity, paymentMethod, date);
+        const transaction = await createTransaction(type, name, userId, category, price, quantity, paymentMethod, date);
         return NextResponse.json({ transaction, message: "Transaction created successfully" }, { status: 201 });
     }catch (error) {
         console.error("Error creating transaction:", error);
