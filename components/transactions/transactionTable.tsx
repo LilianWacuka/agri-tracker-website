@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import { Pencil, Trash2, Search, TrendingUp, TrendingDown } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -32,7 +33,7 @@ export function TransactionTable(){
       const response = await fetch(`/api/transaction?userId=${userId}`);
       const data = await response.json();
       if (response.ok){
-        setTransactions(data.transaction ?? []);
+        setTransactions(data);
       }
     } catch (error){
       console.error("Error fetching transactions:", error);
@@ -44,7 +45,7 @@ export function TransactionTable(){
     const confirmDelete = window.confirm("Delete this transaction?");
     if (!confirmDelete) return;
     try{
-      const response = await fetch(`/api/transaction/${id}`,{
+      const response = await fetch(`/api/transaction?id=${id}`,{
         method: "DELETE",
       })
       if (response.ok){
@@ -114,15 +115,18 @@ export function TransactionTable(){
               <th className="p-4">Type</th>
               <th className="p-4">Category</th>
               <th className="p-4">Name</th>
-              <th className="p-4">Amount</th>
+              <th className="p-4">Quantity</th>
+              <th className="p-4">Price</th>
+              <th className="p-4">Total</th>
               <th className="p-4">Date</th>
+              <th className="p-4">Payment Method</th>
               <th className="p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredTransactions.length === 0 ?(
               <tr>
-                <td colSpan={6} className="p-4 text-center">
+                <td colSpan={9} className="p-4 text-center">
                   No transactions found.
                 </td>
               </tr>
@@ -131,22 +135,29 @@ export function TransactionTable(){
                 <tr key={transaction.id} className="border-t hover:bg-gray-50">
 
                   <td className="p-4">
-                    {transaction.type === "income" ? (
-                      <TrendingUp className="text-green-500" size={20} />
-                    ) : (
-                      <TrendingDown className="text-red-500" size={20} />
-                    )}
+                    <span className={`rounded-full px-3 py-1 text-sm font-medium ${
+                      transaction.type === "income" ? "bg-green-700"
+                      : "bg-red-700"
+                    }`}>
+                      {transaction.type}
+                    </span>
+                  
                   </td>
                   <td className="p-4">{transaction.category}</td>
                   <td className="p-4">{transaction.name}</td>
                   <td className="p-4">{transaction.quantity}</td>
-                  <td className="p-4">ksh{""}{transaction.price.toLocaleString()}</td>
+                  <td className="p-4">ksh{""}{Number(transaction.price).toLocaleString()}</td>
+                  <td className="p-4">ksh{""}{Number(transaction.total).toLocaleString()}</td>  
                   <td className="p-4">{new Date(transaction.date).toLocaleDateString()}</td>
                   <td className="p-4">{transaction.paymentMethod}</td>
-                  <td className="p-4 space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <Pencil size={16} />
-                    </Button>
+                  <td className="p-4 space-x-2 text-blue-500">
+                    <Link href={`/transaction/${transaction.id}/edit`}>
+                      <Button variant="ghost" size="sm">
+                        <Pencil size={16} />
+                      </Button>
+                    </Link>
+                   </td>
+                  <td className="p-4 space-x-2 text-red-500">
                     <Button variant="ghost" size="sm" onClick={() => handleDelete(transaction.id)}>
                       <Trash2 size={16} />
                     </Button>

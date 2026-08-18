@@ -68,7 +68,8 @@ export const createTransaction = async (
 export const getTransactions = async(userId: string) =>{
   try{
     const transactions = await prisma.transaction.findMany({
-      where: {userId}
+      where: {userId},
+      orderBy: {date: "desc"},
     })
     return transactions;
   } catch (error) {
@@ -110,3 +111,17 @@ export const deleteTransaction = async(id: string) => {
     throw error;
   }
 }
+
+// get single transaction by id
+export const getTransactionById = async (id: string) => {
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id },
+      
+    });
+    return transaction;
+  } catch (error) {
+    console.error("Error fetching transaction by id:", error);
+    throw error;
+  }
+};

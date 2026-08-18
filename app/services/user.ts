@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 export const registerUser = async (email: string, userName: string, password: string) =>{
     try {
         const user = await prisma.user.create({
-            data:{email, userName, password}
+            data:{email, userName, passwordHash: password}
         });
         return user;
     } catch (error){

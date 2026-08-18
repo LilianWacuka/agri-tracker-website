@@ -48,7 +48,7 @@ export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
     }
 
     const payload = {
-      type: "Expense",
+      type: "expense",
       name: formData.get("name"),
       userId,
       category: formData.get("category"),

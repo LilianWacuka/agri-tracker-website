@@ -30,7 +30,7 @@ export function Navbar() {
                 Transaction
               </Link>
 
-              <Link href="/reports">
+              <Link href="/report">
                 Reports
               </Link>
               <Link href="/profile">
