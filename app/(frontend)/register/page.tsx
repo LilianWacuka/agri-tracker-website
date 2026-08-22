@@ -142,7 +142,7 @@ export default function RegisterPage() {
 
           {/* Message */}
           {message && (
-            <p className="text-sm text-center text-red-500">
+            <p className="text-sm text-center text-green-500">
               {message}
             </p>
           )}
