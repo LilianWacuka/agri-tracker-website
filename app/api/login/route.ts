@@ -33,13 +33,13 @@ export async function POST(request: NextRequest){
         }
         const token = jwt.sign(
             {userId: user.id, email: user.email}, process.env.JWT_SECRET as string,
-              {expiresIn: "7h"})
+              {expiresIn: "1h"})
         const response = NextResponse.json({message: "Login successful", token, user}, { status: 200 });
         response.cookies.set("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
-            maxAge: 7 * 60 * 60,
+            maxAge: 1 * 60 * 60,
             path: "/",
         });
         return response;
