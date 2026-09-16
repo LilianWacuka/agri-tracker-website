@@ -173,7 +173,7 @@ export default function ReportsPage() {
 
         <div className="flex h-80 items-center justify-center">
           <p className="text-muted-foreground">
-            Bar chart will go here
+            Bar chart comming soon
           </p>
         </div>
       </section>
@@ -186,7 +186,7 @@ export default function ReportsPage() {
 
         <div className="flex h-80 items-center justify-center">
           <p className="text-muted-foreground">
-            Profit/loss chart will go here
+            Profit/loss coming soon
           </p>
         </div>
       </section>
