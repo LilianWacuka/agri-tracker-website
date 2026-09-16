@@ -5,7 +5,7 @@ interface IncomePieChartProps{
     data:{category:string, total:number}[],
 
 }
-const COLORS = ['#ac21df', '#3a4e4b', '#faae09', '#FF8042', '#7a73fb'];
+const COLORS = ['#ac21df', '#3a4e4b', '#dba83a', '#FF8042', '#7a73fb'];
 export default function IncomePieChart({data,}:IncomePieChartProps){
     return(
         <div className= "h-[350px] w-full">

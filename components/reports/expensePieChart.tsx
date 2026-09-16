@@ -5,7 +5,7 @@ interface ExpensePieChartProps{
     data:{category:string, total:number}[],
 
 }
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const COLORS = ['#316897', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 export default function ExpensePieChart({data,}:ExpensePieChartProps){
     return(
         <div className= "h-[350px] w-full">
