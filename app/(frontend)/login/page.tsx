@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "@/context/authContext";
-
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+
+import { useAuth } from "@/context/authContext";
+import GoogleSignIn from "@/components/googleSign/page";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -80,30 +80,21 @@ export default function LoginPage() {
 
     } catch (error) {
       console.error("Login error:", error);
-
-      setMessage(
-        "Unable to connect to the server. Please try again."
-      );
-
+      setMessage("Unable to connect to the server. Please try again.");
     } finally {
-      // Stop loading spinner
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <Card className="w-full max-w-md p-6 shadow-lg">
 
         <h2 className="text-2xl font-bold text-center mb-6">
           Welcome Back
         </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-          {/* Email Input */}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="email"
             placeholder="Email"
@@ -128,31 +119,20 @@ export default function LoginPage() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? (
-                <Eye size={18} />
-              ) : (
-                <EyeOff size={18} />
-              )}
+              {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
           </div>
 
-          {/* Display messages */}
           {message && (
-            <p className="text-sm text-center text-green-500">
-              {message}
-            </p>
+            <p className="text-center text-sm text-green-500">{message}</p>
           )}
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
-                <Loader2 className="animate-spin mr-2 h-4 w-4" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Logging in...
               </>
             ) : (
@@ -160,6 +140,14 @@ export default function LoginPage() {
             )}
           </Button>
         </form>
+
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-300" />
+          <span className="text-sm text-gray-500">OR</span>
+          <div className="h-px flex-1 bg-gray-300" />
+        </div>
+
+        <GoogleSignIn />
 
         {/* Register Link */}
         <p className="text-sm text-center mt-4">
@@ -171,7 +159,6 @@ export default function LoginPage() {
             Register
           </Link>
         </p>
-
       </Card>
     </div>
   );
