@@ -22,7 +22,12 @@ export async function middleware(request: NextRequest) {
     }
 
     const token = request.cookies.get("token")?.value;
-    const protectedRoutes = ['/dashboard'];
+    const protectedRoutes = [
+        '/dashboard',
+        '/api',
+        '/profile',
+
+    ];
     
     const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
 
@@ -32,5 +37,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 };
  export const config = {
-        matcher: ["/dashboard/:path*", "/api/:path*"],
+        matcher: [
+            "/dashboard/:path*", 
+            "/profile/:path*",
+            "/api/:path*"
+        ],
     };

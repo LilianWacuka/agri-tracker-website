@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import IncomePieChart from "@/components/reports/incomePieChart";
 import ExpensePieChart from "@/components/reports/expensePieChart";
+import IncomeExpenseChart from"@/components/reports/incomeexpenseBarChart";
 interface ReportData {
   summary: {
     totalIncome: number;
@@ -172,9 +173,15 @@ export default function ReportsPage() {
         </h2>
 
         <div className="flex h-80 items-center justify-center">
-          <p className="text-muted-foreground">
-            Bar chart comming soon
-          </p>
+          {report.monthly.length > 0 ?(
+            <IncomeExpenseChart data = {report.monthly}/>
+          ): (
+            <div className="flex h-[400px] items-center justify-center">
+              <p className="text-muted-foreground">
+                No transactions data
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
