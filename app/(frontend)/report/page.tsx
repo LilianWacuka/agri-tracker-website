@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import IncomePieChart from "@/components/reports/incomePieChart";
 import ExpensePieChart from "@/components/reports/expensePieChart";
 import IncomeExpenseChart from"@/components/reports/incomeexpenseBarChart";
+import ProfitLossChart from "@/components/reports/profitlossChart";
+import ReportSummary from "@/components/reports/reportSummary";
 interface ReportData {
   summary: {
     totalIncome: number;
@@ -87,43 +89,12 @@ export default function ReportsPage() {
         </p>
       </div>
 
-      {/* Summary cards */}
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-
-        {/* Total Income */}
-        <div className="rounded-lg border bg-card p-5">
-          <p className="text-sm text-muted-foreground">
-            Total Income
-          </p>
-
-          <h2 className="mt-2 text-2xl font-bold">
-            KSh {report.summary.totalIncome.toLocaleString()}
-          </h2>
-        </div>
-
-        {/* Total Expenses */}
-        <div className="rounded-lg border bg-card p-5">
-          <p className="text-sm text-muted-foreground">
-            Total Expenses
-          </p>
-
-          <h2 className="mt-2 text-2xl font-bold">
-            KSh {report.summary.totalExpenses.toLocaleString()}
-          </h2>
-        </div>
-
-        {/* Profit / Loss flex h-[350px] items-center justify-center*/}
-        <div className="rounded-lg border bg-card p-5">
-          <p className="text-sm text-muted-foreground">
-            Profit / Loss
-          </p>
-
-          <h2 className="mt-2 text-2xl font-bold">
-            KSh {report.summary.profitLoss.toLocaleString()}
-          </h2>
-        </div>
-
-      </section>
+      {/* summary */}
+        <ReportSummary
+        totalIncome={report.summary.totalIncome}
+        totalExpenses={report.summary.totalExpenses}
+        profitLoss={report.summary.profitLoss}
+      />
 
       {/* Charts Displayed here */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -190,12 +161,16 @@ export default function ReportsPage() {
         <h2 className="mb-4 text-lg font-semibold">
           Profit & Loss Trend
         </h2>
-
-        <div className="flex h-80 items-center justify-center">
-          <p className="text-muted-foreground">
-            Profit/loss coming soon
-          </p>
-        </div>
+        {report.monthly.length > 0 ?(
+          <ProfitLossChart data= {report.monthly}
+          />
+        ) : (
+          <div className="flex h-[400px] items-center justify-center">
+            <p className="text-muted-foreground">
+              No transaction data available.
+            </p>
+          </div>
+        )}
       </section>
     </main>
   );
