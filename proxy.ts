@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith("/api/")) {
         const forwardedFor = request.headers.get("x-forwarded-for");
         const clientIp = forwardedFor?.split(",")[0]?.trim() || "unknown";
