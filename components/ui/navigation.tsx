@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   ArrowLeftRight,
@@ -10,7 +11,6 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  Sprout,
   UserCircle,
   X,
 } from "lucide-react";
@@ -63,7 +63,13 @@ export function Navbar({ children }: NavbarProps) {
           href="/dashboard"
           className="flex h-20 items-center gap-3 border-b px-6 text-xl font-bold text-green-700"
         >
-          <Sprout size={26} />
+          <Image
+            src="/AgriTracker Logo.png"
+            alt=""
+            width={26}
+            height={26}
+            className="object-contain"
+          />
           Agri Tracker
         </Link>
 
@@ -107,8 +113,16 @@ export function Navbar({ children }: NavbarProps) {
           href="/dashboard"
           className="flex items-center gap-2 font-bold text-green-700"
         >
-          <Sprout size={22} />
-          Agri Tracker
+        <Image
+           src="/AgriTracker Logo.png"
+           alt="AgriTracker logo"
+           width={32}
+           height={32}
+           priority
+           className="shrink-0 object-contain"
+         />
+
+        <span>Agri Tracker</span>
         </Link>
 
         <Button
