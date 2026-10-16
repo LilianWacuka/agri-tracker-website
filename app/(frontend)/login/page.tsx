@@ -87,18 +87,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <Card className="w-full max-w-md p-6 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-[#C66A2D] p-4">
+      <Card className="w-full max-w-md p-6 shadow-lg bg-[#8B5A2C] text-[#FFFFFF]">
 
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6 text-[#FFFFFF]">
           Welcome Back
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 border-[#623418]">
           <Input
             type="email"
             placeholder="Email"
             value={email}
+            className="bg-[#3A2C1A]"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -109,7 +110,7 @@ export default function LoginPage() {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
-              className="pr-10"
+              className="pr-10 bg-[#3A2C1A]"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -129,7 +130,7 @@ export default function LoginPage() {
             <p className="text-center text-sm text-green-500">{message}</p>
           )}
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-[#D8760E] hover:bg-[#B85F09]" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -143,7 +144,7 @@ export default function LoginPage() {
 
         <div className="mt-4 flex items-center gap-3">
           <div className="h-px flex-1 bg-gray-300" />
-          <span className="text-sm text-gray-500">OR</span>
+          <span className="text-sm text-[#FFFFFF]">OR</span>
           <div className="h-px flex-1 bg-gray-300" />
         </div>
 

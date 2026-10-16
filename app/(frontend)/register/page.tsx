@@ -88,10 +88,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-6 shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Create Account
+    <div className="min-h-screen bg-[#C66A2D] flex items-center justify-center p-4">
+      <Card className="w-full max-w-md p-6 shadow-lg bg-[#8B5A2C] text-[#FFFFFF]">
+        <h2 className="text-2xl font-bold text-center mb-6 text-[#FFFFFF]">
+          Create An Account
         </h2>
 
         <form
@@ -103,6 +103,7 @@ export default function RegisterPage() {
             type="email"
             placeholder="Email"
             value={email}
+            className="bg-[#3A2C1A]"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -112,6 +113,7 @@ export default function RegisterPage() {
             type="text"
             placeholder="Username"
             value={userName}
+            className="bg-[#3A2C1A]"
             onChange={(e) => setUserName(e.target.value)}
             required
           />
@@ -122,7 +124,7 @@ export default function RegisterPage() {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
-              className="pr-10"
+              className="pr-10 bg-[#3A2C1A]"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -150,7 +152,7 @@ export default function RegisterPage() {
           {/* Submit */}
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-[#D8760E] hover:bg-[#B85F09]"
             disabled={isLoading}
           >
             {isLoading ? (
