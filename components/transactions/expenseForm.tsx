@@ -19,7 +19,7 @@ const expenseCategories = [
   "Construction",
   "Furniture/equipments",
   "Wood Shavings",
-  "",
+  "Chicks",
 ];
 
 export function ExpenseForm({ onSuccess,}: {onSuccess: () => void;}) {
