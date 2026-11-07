@@ -25,7 +25,7 @@ export function QuickActions() {
       <Card className="w-full max-w-md p-6 shadow-sm">
         <h2 className="text-xl font-semibold">Quick Actions</h2>
 
-        <div className="mt-5 grid grid-cols-2 gap-3">
+        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Opens the existing income form. */}
           <Button
             className="justify-start gap-2 bg-green-700 hover:bg-green-800"

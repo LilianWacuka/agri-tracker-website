@@ -12,7 +12,7 @@ import {
   LogOut,
   Menu,
   UserCircle,
-  X,
+  X, Phone, MessageSquare
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,7 @@ export function Navbar({ children }: NavbarProps) {
   return (
     <>
       {/* Desktop left sidebar */}
-      <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r bg-white md:flex">
+      <aside className="fixed top-5 left-0 hidden w-64 flex-col border-r bg-white md:flex">
         <Link
           href="/dashboard"
           className="flex h-20 items-center gap-3 border-b px-6 text-xl font-bold text-green-700"
@@ -173,7 +173,27 @@ export function Navbar({ children }: NavbarProps) {
       )}
 
       {/* Dashboard page content */}
-      <main className="min-h-screen bg-zinc-50 md:ml-64">{children}</main>
+      <main className="min-h-[calc(100vh-5rem)] bg-zinc-50 md:ml-64">{children}</main>
+      <footer className="border-t bg-[#E9F6E9] px-4 py-7 md:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm text-gray-600 sm:flex-row">
+          <p>@ {new Date().getFullYear()} AgriTracker. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <a href="tel: +254707603345"
+            className="flex items-center gap-2 hover: text-green-700">
+              <Phone size={16} />
+              +254 707 603345
+
+            </a>
+            <a href ="sms:+254707603345"
+            className="flex items-center gap-2 hover: text-green-700">
+              <MessageSquare size={16} />
+              +254 707 603345
+            </a>
+          </div>
+
+        </div>
+
+      </footer>
     </>
   );
 }

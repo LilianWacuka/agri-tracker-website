@@ -59,7 +59,7 @@ export default function GoogleSignIn() {
         {
           theme: "outline",
           size: "large",
-          width: 400,
+          width: googleButtonRef.current.offsetWidth,
           text: "continue_with",
         }
       );
@@ -86,5 +86,5 @@ export default function GoogleSignIn() {
     };
   }, []);
 
-  return <div ref={googleButtonRef} />;
+  return <div ref={googleButtonRef} className="w-full overflow-hidden" />;
 }

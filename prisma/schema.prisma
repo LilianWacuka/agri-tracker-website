@@ -17,6 +17,8 @@ model User {
   userName   String
   email  String @unique
   passwordHash String?
+  resetTokenHash String?
+  resetTokenExpiry DateTime?
   googleId String?
   fullName String?
   farmName String?
