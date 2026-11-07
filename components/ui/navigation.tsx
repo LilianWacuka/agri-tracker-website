@@ -176,7 +176,7 @@ export function Navbar({ children }: NavbarProps) {
       <main className="min-h-[calc(100vh-5rem)] bg-zinc-50 md:ml-64">{children}</main>
       <footer className="border-t bg-[#E9F6E9] px-4 py-7 md:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm text-gray-600 sm:flex-row">
-          <p>@ {new Date().getFullYear()} AgriTracker. All rights reserved.</p>
+          <p className="text-[#2A4A2A] font-bold">@ {new Date().getFullYear()} AgriTracker. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="tel: +254707603345"
             className="flex items-center gap-2 hover: text-green-700">
